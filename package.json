@@ -1,0 +1,19 @@
+{
+  "name": "emq-proxy-server",
+  "version": "1.0.0",
+  "description": "proxy server for emq api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "pm2 start -i 1 --name server index.js",
+    "start": "pm2 start -i 2 npm -- start --log-date-format='YYYY-MM-DD HH:mm Z'"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.2",
+    "http-proxy-middleware": "^0.17.4",
+    "opn": "^5.1.0"
+  }
+}
