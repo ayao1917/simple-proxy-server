@@ -7,8 +7,10 @@ const express = require('express');
 const cors = require('cors');
 const proxy = require('http-proxy-middleware');
 
+const HTTP_SERVER_ERROR = 500;
+
 const filter = function (pathname, req) {
-    return (pathname.match('^/') && req.method !== 'OPTIONS');
+  return (pathname.match('^/') && req.method !== 'OPTIONS');
 };
 
 const hostUrl = process.env.HOST;
@@ -31,6 +33,13 @@ const app = express();
  */
 app.use(cors());
 app.use('/', jsonPlaceholderProxy);
+app.use(function(err, req, res, next) {
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  return res.status(err.status || HTTP_SERVER_ERROR).render('500');
+});
 // app.use(function(req, res, next) {
 //   res.header('Access-Control-Allow-Origin', req.get('origin'))
 //   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS')
