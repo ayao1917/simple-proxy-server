@@ -1,18 +1,22 @@
 /**
  * Module dependencies.
  */
-var express = require('express');
-var cors = require('cors');
-var proxy = require('http-proxy-middleware');
+require('dotenv').config();
 
-var filter = function (pathname, req) {
+const express = require('express');
+const cors = require('cors');
+const proxy = require('http-proxy-middleware');
+
+const filter = function (pathname, req) {
     return (pathname.match('^/') && req.method !== 'OPTIONS');
 };
+
+const hostUrl = process.env.HOST;
 /**
  * Configure proxy middleware
  */
-var jsonPlaceholderProxy = proxy(filter, {
-  target: 'https://staging-api.emq.com',
+const jsonPlaceholderProxy = proxy(filter, {
+  target: hostUrl,
   changeOrigin: true,             // for vhosted sites, changes host header to match to target's host
   logLevel: 'debug',
   onProxyRes: function (proxyRes, req, res) {
@@ -20,7 +24,7 @@ var jsonPlaceholderProxy = proxy(filter, {
   }
 });
 
-var app = express();
+const app = express();
 
 /**
  * Add the proxy to express

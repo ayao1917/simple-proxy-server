@@ -1,22 +1,22 @@
 /**
  * Module dependencies.
  */
-var express = require('express');
-var proxy = require('http-proxy-middleware');
+const express = require('express');
+const proxy = require('http-proxy-middleware');
 
-var filter = function (pathname, req) {
+const filter = function (pathname, req) {
   return (pathname.match('^/v1') && req.method !== 'OPTIONS');
 };
 /**
  * Configure proxy middleware
  */
-var jsonPlaceholderProxy = proxy(filter, {
+const jsonPlaceholderProxy = proxy(filter, {
   target: 'https://staging-partner.emq.com',
   changeOrigin: true,             // for vhosted sites, changes host header to match to target's host
   logLevel: 'debug'
 });
 
-var app = express();
+const app = express();
 
 /**
  * Add the proxy to express
