@@ -14,6 +14,7 @@ const filter = function (pathname, req) {
 };
 
 const hostUrl = process.env.HOST;
+const bindPort = process.env.PORT || 3000;
 /**
  * Configure proxy middleware
  */
@@ -53,9 +54,9 @@ app.use(function(err, req, res, next) {
 //   }
 // });
 
-app.listen(3000);
+app.listen(bindPort);
 
-console.log('[DEMO] Server: listening on port 3000');
-console.log('[DEMO] Opening: http://localhost:3000/');
+console.log(`[DEMO] Server: listening on port ${bindPort}`);
+console.log(`[DEMO] Opening: http://localhost:${bindPort}/`);
 
-require('opn')('http://localhost:3000/');
+require('opn')(`http://localhost:${bindPort}/`);
